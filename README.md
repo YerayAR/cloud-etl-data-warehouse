@@ -1,48 +1,58 @@
 # Cloud ETL & Data Warehouse Orchestration
 
-This repository contains the architecture and codebase for a highly scalable ETL (Extract, Transform, Load) pipeline. It demonstrates the ability to extract data from multiple disparate API sources, transform large volumes of raw logs, and load the structured data into a Snowflake data warehouse for downstream analytics and reporting.
+Portfolio project focused on data engineering patterns for ingesting API data, orchestrating ETL jobs, and loading analytics-ready structures into a warehouse.
 
-## 🚀 Project Overview
+## What This Project Demonstrates
 
-- **Objective:** Consolidate data from 5+ different API sources into a centralized Snowflake warehouse.
-- **Volume:** Capable of transforming over 2TB of raw logs.
-- **Orchestration:** Directed and scheduled using Apache Airflow.
-- **Languages & Tools:** Python, Airflow, Snowflake, AWS S3.
+- Designing an Airflow DAG for scheduled ingestion and dependency management.
+- Structuring a cloud ETL flow from API extraction to warehouse loading.
+- Modeling a Snowflake-ready schema for downstream reporting.
+- Thinking in terms of idempotency, retries, observability, and operational reliability.
 
-## 🏗 Architecture Workflow
+## Business Scenario
 
-1. **Extraction:** Python scripts fetch data from multiple REST APIs (e.g., Salesforce, Zendesk, Stripe, Custom Internal APIs).
-2. **Data Lake Storage:** Raw JSON/CSV logs are dumped into an **AWS S3** bucket (Raw Zone).
-3. **Transformation:** Airflow triggers Python/Pandas jobs (or Snowflake Snowpark) to clean, normalize, and validate the raw data.
-4. **Data Warehouse (Load):** The transformed data is loaded into **Snowflake** utilizing `COPY INTO` commands and Snowpipe for structured reporting.
-5. **Orchestration:** **Apache Airflow** DAGs manage dependencies, retries, and failure alerts across the entire pipeline.
+The use case simulates a pipeline that consolidates data from multiple operational APIs into a centralized analytics layer. The goal is to reduce fragmented reporting, standardize transformations, and make curated data available for BI and decision-making.
 
-## 📂 Repository Structure
+## Tech Stack
+
+- Python
+- Apache Airflow
+- Snowflake
+- AWS S3
+- SQL
+
+## Repository Structure
 
 ```text
 cloud-etl-data-warehouse/
-├── dags/                     # Apache Airflow DAG definitions
-│   └── api_to_snowflake_dag.py
-├── scripts/                  # Python extraction and transformation scripts
-│   ├── extract_apis.py
-│   └── transform_logic.py
-├── sql/                      # Snowflake SQL scripts for schema definition and COPY INTO
-│   ├── setup_warehouse.sql
-│   └── load_tables.sql
-├── tests/                    # Unit tests for data quality and pipeline validation
-├── requirements.txt          # Python dependencies
-└── README.md                 # Project documentation
+|-- dags/
+|   `-- api_to_snowflake_dag.py
+|-- sql/
+|   `-- setup_warehouse.sql
+|-- requirements.txt
+`-- README.md
 ```
 
-## 🛠 Tech Stack
+## Current Contents
 
-- **Orchestration:** Apache Airflow
-- **Cloud Storage:** AWS S3
-- **Data Warehouse:** Snowflake
-- **Language:** Python 3.10+ (requests, pandas, snowflake-connector-python)
+- [dags/api_to_snowflake_dag.py](./dags/api_to_snowflake_dag.py): orchestration logic for the ETL flow.
+- [sql/setup_warehouse.sql](./sql/setup_warehouse.sql): warehouse setup script with the reporting schema.
+- [requirements.txt](./requirements.txt): Python dependencies for the project skeleton.
 
-## 💡 Highlighted Skills
-- Advanced Python scripting for API pagination and rate-limit handling.
-- Designing idempotent Airflow DAGs.
-- Cloud storage integration (S3 boto3).
-- Data warehousing strategy (Star Schema, Fact/Dimension tables) in Snowflake.
+## End-to-End Flow
+
+1. Extract data from external and internal APIs.
+2. Land raw payloads in cloud storage.
+3. Transform and validate records before loading.
+4. Load curated data into Snowflake.
+5. Orchestrate retries, scheduling, and dependencies with Airflow.
+
+## Why It Matters
+
+This project is meant to show data engineering judgment rather than only code volume: pipeline structure, warehouse thinking, and how to frame ETL work so it is maintainable in production.
+
+## Next Improvements
+
+- Add extraction scripts with pagination and rate-limit handling.
+- Add tests for schema and data quality checks.
+- Add a local mock pipeline for easier reproducibility.
